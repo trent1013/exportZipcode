@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<project default="deploy">
+
+    <path id="classpath">
+        <fileset dir="/usr/share/java/tomcat/" includes="*.jar"/>
+    </path>
+
+    <target name="clean">
+        <delete dir="build" />
+        <delete dir="deploy" />
+    </target>
+
+    <target name="compile" depends="clean">
+        <mkdir dir="WEB-INF/classes" />
+        <javac debug="true" destdir="WEB-INF/classes">
+            <src path="src"/>
+            <classpath refid="classpath"/>
+        </javac>
+    </target>
+
+    <target name="deploy" depends="compile">
+        <copy file="web.xml" tofile="build/WEB-INF/web.xml" />
+        <mkdir dir="deploy" />
+        <jar destfile="deploy/exportPhonebook.war" basedir="build"></jar>
+    </target>
+
+</project>
